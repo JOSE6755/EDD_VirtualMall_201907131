@@ -309,6 +309,7 @@ func (l *Lista_doble) elimencon(a eliminacion, w http.ResponseWriter) bool {
 	return echo
 }
 
+// Costo mucho :(
 func graficar() {
 	n := 0
 	ayu := 0
@@ -402,10 +403,13 @@ func (l *Lista_doble) listar2(n int) string {
 	return datos
 }
 
+//No me salio :()
+
 func guardar(w http.ResponseWriter, r *http.Request) {
 
 	var datos2 Datos_fin
 	tam := 0
+	contador := 0
 	datos2.Datos = make([]Datoss, len(indices))
 
 	for i := 0; i < len(indices); i++ {
@@ -415,6 +419,15 @@ func guardar(w http.ResponseWriter, r *http.Request) {
 		datos2.Datos[i].Indice = indices[i]
 		for j := 0; j < len(depas); j++ {
 			datos2.Datos[i].Departamentos[j].Nombre = depas[j]
+			for k := 0; k < len(vector); k++ {
+				tam += vector[k].cantidad
+				contador++
+				if contador == 5 {
+					datos2.Datos[i].Departamentos[j].Tiendas = make([]Tiendas, tam)
+					tam = 0
+					contador = 0
+				}
+			}
 			for k := 0; k < 5; k++ {
 				n := (i*len(depas)+j)*5 + k
 				tam += vector[n].cantidad
@@ -450,5 +463,9 @@ func guardar(w http.ResponseWriter, r *http.Request) {
 	defer file.Close()
 
 	io.Copy(file, buf)
+
+}
+
+func guardar2() {
 
 }
