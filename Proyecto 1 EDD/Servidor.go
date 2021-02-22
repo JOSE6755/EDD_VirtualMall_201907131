@@ -71,7 +71,6 @@ func crear(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(datos)
 
 	llenar(datos)
-	graficar()
 
 }
 
@@ -93,12 +92,13 @@ func main() {
 	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/", inicio)
 
-	router.HandleFunc("/meter", crear).Methods("POST")
+	router.HandleFunc("/Cargar", crear).Methods("POST")
 	router.HandleFunc("/TiendaEspecifica", buscar).Methods("POST")
-	router.HandleFunc("/Eliminar", eliminar)
+
 	router.HandleFunc("/id/{id}", pornum).Methods("GET")
-	router.HandleFunc("/Eliminar", eliminar).Methods("POST")
+	router.HandleFunc("/Eliminar", eliminar).Methods("DELETE")
 	router.HandleFunc("/Guardar", guardar).Methods("GET")
+	router.HandleFunc("/getArreglo", graficar).Methods("GET")
 	http.ListenAndServe(":3000", router)
 	log.Fatal(http.ListenAndServe(":3000", router))
 
@@ -310,7 +310,7 @@ func (l *Lista_doble) elimencon(a eliminacion, w http.ResponseWriter) bool {
 }
 
 // Costo mucho :(
-func graficar() {
+func graficar(w http.ResponseWriter, r *http.Request) {
 	n := 0
 	ayu := 0
 	ayu2 := 0
